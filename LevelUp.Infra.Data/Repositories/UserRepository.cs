@@ -100,7 +100,6 @@ namespace LevelUp.Infra.Data.Repositories
             }
 
             return user;
-
         }
 
         public async Task<UserEntity?> UpdateAsync(int id, UserEntity user)
