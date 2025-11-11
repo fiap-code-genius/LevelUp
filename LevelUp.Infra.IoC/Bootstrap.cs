@@ -18,7 +18,7 @@ namespace LevelUp.Infra.IoC
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy(), tags: new[] { "live" })
                 .AddOracle(
-                        connectionString: configuration.GetConnectionString("Oracle"),
+                        connectionString: configuration.GetConnectionString("DefaultConnection"),
                         name: "oracle_query",
                         tags: new[] { "ready" }
                      );

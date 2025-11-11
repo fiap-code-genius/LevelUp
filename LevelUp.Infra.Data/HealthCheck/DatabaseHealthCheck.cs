@@ -4,11 +4,11 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LevelUp.Infra.Data.HealthCheck
 {
-    public class OracleHealthCheck : IHealthCheck
+    public class DatabaseHealthCheck : IHealthCheck
     {
         private readonly ApplicationContext _context;
 
-        public OracleHealthCheck(ApplicationContext context)
+        public DatabaseHealthCheck(ApplicationContext context)
         {
             _context = context;
         }
@@ -19,11 +19,11 @@ namespace LevelUp.Infra.Data.HealthCheck
             {
                 await _context.Users.AsNoTracking().Take(1).AnyAsync(cancellationToken);
 
-                return HealthCheckResult.Healthy("Banco de dados Oracle está online.");
+                return HealthCheckResult.Healthy("Banco de dados está online.");
             }
             catch (Exception ex)
             {
-                return HealthCheckResult.Unhealthy("Banco de dados Oracle está offline.", ex);
+                return HealthCheckResult.Unhealthy("Banco de dados está offline.", ex);
             }
         }
     }
