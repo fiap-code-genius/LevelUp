@@ -11,7 +11,7 @@ namespace LevelUp.Infra.IoC
         {
             services.AddDbContext<ApplicationContext>(options =>
             {
-                options.UseOracle(configuration.GetConnectionString("Oracle"));
+                options.UseOracle(configuration.GetConnectionString("DefaultConnection"));
             });
 
         }

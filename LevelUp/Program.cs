@@ -1,5 +1,4 @@
-﻿
-using LevelUp.Infra.IoC;
+﻿using LevelUp.Infra.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.ResponseCompression;
