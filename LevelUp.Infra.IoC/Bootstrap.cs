@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LevelUp.Infra.IoC
 {
@@ -14,6 +15,13 @@ namespace LevelUp.Infra.IoC
                 options.UseOracle(configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy(), tags: new[] { "live" })
+                .AddOracle(
+                        connectionString: configuration.GetConnectionString("Oracle"),
+                        name: "oracle_query",
+                        tags: new[] { "ready" }
+                     );
         }
     }
 }
