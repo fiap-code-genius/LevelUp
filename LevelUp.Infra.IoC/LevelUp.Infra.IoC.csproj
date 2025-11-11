@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.Oracle" Version="8.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\LevelUp.Application\LevelUp.Application.csproj" />
+	  <ProjectReference Include="..\LevelUp.Domain\LevelUp.Domain.csproj" />
+	  <ProjectReference Include="..\LevelUp.Infra.Data\LevelUp.Infra.Data.csproj" />
+	</ItemGroup>
+	
+</Project>
