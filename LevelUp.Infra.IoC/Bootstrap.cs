@@ -1,4 +1,5 @@
 ﻿using LevelUp.Infra.Data.AppData;
+using LevelUp.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,12 @@ namespace LevelUp.Infra.IoC
                         name: "oracle_query",
                         tags: new[] { "ready" }
                      );
+
+            // Application repositories
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IRewardRepository, RewardRepository>();
+            services.AddTransient<IRewardRedemptionRepository, RewardRedemptionRepository>();
         }
     }
 }
