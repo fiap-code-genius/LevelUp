@@ -5,7 +5,7 @@ namespace LevelUp.Application.Interfaces
 {
     public interface IRewardUseCase
     {
-        Task<OperationResult<PageResultModel<RewardResponseDto?>>> GetAllAsync(int offset = 0, int take = 10);
+        Task<OperationResult<PageResultModel<IEnumerable<RewardResponseDto>>>> GetAllAsync(int offset = 0, int take = 10);
         Task<OperationResult<RewardResponseDto?>> GetByIdAsync(int id);
         Task<OperationResult<RewardResponseDto?>> CreateAsync(RewardCreateUpdateDto request);
         Task<OperationResult<RewardResponseDto?>> UpdateAsync(int id, RewardCreateUpdateDto request);

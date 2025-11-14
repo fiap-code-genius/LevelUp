@@ -1,4 +1,5 @@
-﻿namespace LevelUp.Domain.Common
+﻿
+namespace LevelUp.Domain.Common
 {
     public class OperationResult<T>
     {

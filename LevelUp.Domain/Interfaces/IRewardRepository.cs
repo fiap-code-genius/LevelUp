@@ -1,7 +1,7 @@
 ﻿using LevelUp.Domain.Common;
 using LevelUp.Domain.Entities;
 
-namespace LevelUp.Infra.Data.Repositories
+namespace LevelUp.Domain.Interfaces
 {
     public interface IRewardRepository
     {

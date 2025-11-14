@@ -1,6 +1,7 @@
 ﻿using LevelUp.Domain.Common;
 using LevelUp.Domain.Entities;
 using LevelUp.Domain.Errors;
+using LevelUp.Domain.Interfaces;
 using LevelUp.Infra.Data.AppData;
 using Microsoft.EntityFrameworkCore;
 
