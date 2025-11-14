@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace LevelUp.Application.Dtos.User
 {
-    public record UserUpdateDto(string FullName, string Email, string? JobTitle, string Role, int? TeamId);
+    public record UserUpdateDto(string FullName, string Email, string? JobTitle, string Role, int? TeamId, int? PointBalance);
 }

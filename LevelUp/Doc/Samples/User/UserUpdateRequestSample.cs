@@ -12,7 +12,8 @@ namespace LevelUp.Doc.Samples.User
                 Email: "usuario.atualizado@levelup.com",
                 JobTitle: "Analista de QA Pleno",
                 Role: "USER",
-                TeamId: 2
+                TeamId: 2,
+                PointBalance: 1500
             );
         }
     }

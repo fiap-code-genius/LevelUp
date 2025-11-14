@@ -95,7 +95,9 @@ namespace LevelUp.Application.UseCases
                     JobTitle = request.JobTitle,
                     Role = request.Role,
                     TeamId = request.TeamId,
-                    PasswordHash = ""
+                    PasswordHash = "",
+
+                    PointBalance = request.PointBalance ?? -1
                 };
 
                 var updatedUser = await _repository.UpdateAsync(id, userEntityUpdate);

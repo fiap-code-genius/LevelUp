@@ -130,6 +130,11 @@ namespace LevelUp.Infra.Data.Repositories
                     existingUser.PasswordHash = user.PasswordHash;
                 }
 
+                if (user.PointBalance != -1)
+                {
+                    existingUser.PointBalance = user.PointBalance;
+                }
+
                 _context.Users.Update(existingUser);
                 await _context.SaveChangesAsync();
                 return existingUser;
