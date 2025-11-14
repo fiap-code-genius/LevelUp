@@ -1,4 +1,6 @@
-﻿using LevelUp.Domain.Interfaces;
+﻿using LevelUp.Application.Interfaces;
+using LevelUp.Application.UseCases;
+using LevelUp.Domain.Interfaces;
 using LevelUp.Infra.Data.AppData;
 using LevelUp.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,12 @@ namespace LevelUp.Infra.IoC
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRewardRepository, RewardRepository>();
             services.AddTransient<IRewardRedemptionRepository, RewardRedemptionRepository>();
+
+            // Application UseCases
+            services.AddTransient<ITeamUseCase, TeamUseCase>();
+            services.AddTransient<IUserUseCase, UserUseCase>();
+            services.AddTransient<IRewardUseCase, RewardUseCase>();
+            services.AddTransient<IRewardRedemptionUseCase, RewardRedemptionUseCase>();
         }
     }
 }

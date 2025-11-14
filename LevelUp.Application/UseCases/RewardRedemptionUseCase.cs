@@ -8,13 +8,13 @@ using System.Net;
 
 namespace LevelUp.Application.UseCases
 {
-    public class RedemptionRewardUseCase : IRewardRedemptionUseCase
+    public class RewardRedemptionUseCase : IRewardRedemptionUseCase
     {
         private readonly IRewardRedemptionRepository _redemptionRepository;
         private readonly IUserRepository _userRepository;
         private readonly IRewardRepository _rewardRepository;
 
-        public RedemptionRewardUseCase(
+        public RewardRedemptionUseCase(
                     IRewardRedemptionRepository redemptionRepository,
                     IUserRepository userRepository,
                     IRewardRepository rewardRepository)
