@@ -28,7 +28,18 @@ namespace LevelUp.Domain.Entities
 
         [Required]
         [Column("stock_quantity")]
-        public int StockQuantity { get; set; } = 0; // Mapeia o DEFAULT 0
+        public int StockQuantity { get; set; } = 0;
+
+        [Required]
+        [Column("CREATED_AT")]
+        public DateTime CreatedAt { get; set; }
+
+        [Column("UPDATED_AT")]
+        public DateTime? UpdatedAt { get; set; }
+
+        [Required]
+        [Column("IS_ACTIVE", TypeName = "CHAR(1)")]
+        public char IsActive { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<RewardRedemptionEntity> RewardRedemptions { get; set; } = new List<RewardRedemptionEntity>();

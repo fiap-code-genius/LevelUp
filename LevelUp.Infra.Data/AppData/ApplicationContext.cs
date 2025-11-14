@@ -17,11 +17,19 @@ namespace LevelUp.Infra.Data.AppData
             {
                 e.Property(u => u.PointBalance).HasDefaultValue(0);
                 e.Property(u => u.Role).HasDefaultValue("USER");
+                e.Property(u => u.CreatedAt).HasDefaultValueSql("SYSDATE");
+                e.Property(u => u.IsActive).HasDefaultValue('Y');
+
+                e.Property(u => u.IsActive).HasColumnType("CHAR(1)");
             });
 
             modelBuilder.Entity<RewardEntity>(e =>
             {
                 e.Property(r => r.StockQuantity).HasDefaultValue(0);
+                e.Property(r => r.CreatedAt).HasDefaultValueSql("SYSDATE");
+                e.Property(r => r.IsActive).HasDefaultValue('Y');
+
+                e.Property(r => r.IsActive).HasColumnType("CHAR(1)");
             });
         }
 

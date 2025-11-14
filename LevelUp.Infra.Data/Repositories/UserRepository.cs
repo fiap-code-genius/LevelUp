@@ -20,7 +20,7 @@ namespace LevelUp.Infra.Data.Repositories
             var userAuth = await _context.Users
                 .AsNoTracking()
                 .Include(u => u.Team)
-                .FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == passwordHash);
+                .FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == passwordHash && u.IsActive == 'Y');
 
             if (userAuth is null)
             {
@@ -32,6 +32,7 @@ namespace LevelUp.Infra.Data.Repositories
 
         public async Task<UserEntity?> CreateAsync(UserEntity user)
         {
+            user.CreatedAt = DateTime.UtcNow;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
@@ -39,21 +40,30 @@ namespace LevelUp.Infra.Data.Repositories
 
         public async Task<UserEntity?> DeleteAsync(int id)
         {
-            var user = await GetByIdAsync(id);
+            /*
+                Método de soft delete para manter o histórico dos usuários
+                mas não permitir mais acesso ao sistema.
+            */
 
-            if (user is null)
+            var user = await _context.Users.FindAsync(id);
+
+            if (user is null || user.IsActive == 'N')
             {
                 throw new IdNotFoundException($"Usuário com ID: {id} - não encontrado para deletar.");
             }
 
-            _context.Users.Remove(user);
+            user.IsActive = 'N';
+            user.UpdatedAt = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
             return user;
         }
 
         public async Task<PageResultModel<IEnumerable<UserEntity>>> GetAllAsync(int offset = 0, int take = 10)
         {
-            var total = await _context.Users.CountAsync();
+            var query = _context.Users.Where(u => u.IsActive == 'Y');
+
+            var total = await query.CountAsync();
 
             var data = await _context.Users
                 .Include(u => u.Team)
@@ -77,7 +87,7 @@ namespace LevelUp.Infra.Data.Repositories
             var user = await _context.Users
                 .AsNoTracking()
                 .Include(u => u.Team)
-                .FirstOrDefaultAsync(u => u.Email == email);
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsActive == 'Y');
 
             if (user is null)
             {
@@ -92,7 +102,7 @@ namespace LevelUp.Infra.Data.Repositories
             var user = await _context.Users
                 .AsNoTracking()
                 .Include(u => u.Team)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id && u.IsActive == 'Y');
 
             if (user is null)
             {
@@ -105,13 +115,14 @@ namespace LevelUp.Infra.Data.Repositories
         public async Task<UserEntity?> UpdateAsync(int id, UserEntity user)
         {
             var existingUser = await _context.Users.FindAsync(id);
-            if (existingUser != null)
+            if (existingUser != null && existingUser.IsActive == 'Y')
             {
                 existingUser.FullName = user.FullName;
                 existingUser.Email = user.Email;
                 existingUser.JobTitle = user.JobTitle;
                 existingUser.TeamId = user.TeamId;
                 existingUser.Role = user.Role;
+                existingUser.UpdatedAt = DateTime.UtcNow;
 
                 if (!string.IsNullOrWhiteSpace(user.PasswordHash))
                 {
@@ -128,7 +139,7 @@ namespace LevelUp.Infra.Data.Repositories
         public async Task<bool> UpdateUserPointsAsync(int userId, int newPointBalance)
         {
             var user = await _context.Users.FindAsync(userId);
-            if (user != null)
+            if (user != null && user.IsActive == 'Y')
             {
                 user.PointBalance = newPointBalance;
                 _context.Users.Update(user);

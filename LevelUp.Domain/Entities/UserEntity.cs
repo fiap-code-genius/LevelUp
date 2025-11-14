@@ -45,6 +45,17 @@ namespace LevelUp.Domain.Entities
         [Column("role")]
         public string Role { get; set; } = "USER";
 
+        [Required]
+        [Column("CREATED_AT")]
+        public DateTime CreatedAt { get; set; }
+
+        [Column("UPDATED_AT")]
+        public DateTime? UpdatedAt { get; set; }
+
+        [Required]
+        [Column("IS_ACTIVE", TypeName = "CHAR(1)")]
+        public char IsActive { get; set; }
+
         [ForeignKey("TeamId")]
         [JsonIgnore]
         public virtual TeamEntity? Team { get; set; }

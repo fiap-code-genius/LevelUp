@@ -16,6 +16,7 @@ namespace LevelUp.Infra.Data.Repositories
 
         public async Task<RewardEntity?> CreateAsync(RewardEntity reward)
         {
+            reward.CreatedAt = DateTime.UtcNow;
             _context.Rewards.Add(reward);
             await _context.SaveChangesAsync();
             return reward;
@@ -23,21 +24,29 @@ namespace LevelUp.Infra.Data.Repositories
 
         public async Task<RewardEntity?> DeleteAsync(int id)
         {
-            var reward = await GetByIdAsync(id);
+            /*
+                Método de soft delete para manter o histórico dos recompensas
+                mas não exibir mais no sistema.
+            */
+            var reward = await _context.Rewards.FindAsync(id);
 
-            if (reward is null)
+            if (reward is null || reward.IsActive == 'N')
             {
                 throw new IdNotFoundException($"Recompensa com ID: {id} - não encontrada para deletar.");
             }
 
-            _context.Rewards.Remove(reward);
+            reward.IsActive = 'N';
+            reward.UpdatedAt = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
             return reward;
         }
 
         public async Task<PageResultModel<IEnumerable<RewardEntity>>> GetAllAsync(int offset = 0, int take = 10)
         {
-            var total = await _context.Rewards.CountAsync();
+            var query = _context.Rewards.Where(r => r.IsActive == 'Y');
+
+            var total = await query.CountAsync();
 
             var data = await _context.Rewards
                 .OrderBy(r => r.PointCost)
@@ -59,7 +68,7 @@ namespace LevelUp.Infra.Data.Repositories
         {
             var reward = await _context.Rewards
                 .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.Id == id);
+                .FirstOrDefaultAsync(r => r.Id == id && r.IsActive == 'Y');
 
             if (reward is null)
             {
@@ -72,12 +81,13 @@ namespace LevelUp.Infra.Data.Repositories
         public async Task<RewardEntity?> UpdateAsync(int id, RewardEntity reward)
         {
             var existingReward = await _context.Rewards.FindAsync(id);
-            if (existingReward != null)
+            if (existingReward != null && existingReward.IsActive == 'Y')
             {
                 existingReward.Name = reward.Name;
                 existingReward.Description = reward.Description;
                 existingReward.PointCost = reward.PointCost;
                 existingReward.StockQuantity = reward.StockQuantity;
+                existingReward.UpdatedAt = DateTime.UtcNow;
 
                 _context.Rewards.Update(existingReward);
                 await _context.SaveChangesAsync();
