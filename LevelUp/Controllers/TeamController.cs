@@ -4,6 +4,7 @@ using LevelUp.Doc.Samples.Team;
 using LevelUp.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -30,6 +31,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 200, description: "Lista de times", typeof(PageResultModel<IEnumerable<TeamResponseDto>>))]
         [SwaggerResponse(statusCode: 401, description: "Não autenticado")]
         [SwaggerResponseExample(statusCode: 200, typeof(TeamListResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> GetAll([FromQuery] int offset = 0, [FromQuery] int take = 10)
         {
             var result = await _teamUseCase.GetAllAsync(offset, take);
@@ -78,6 +80,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 404, description: "Time não encontrado")]
         [SwaggerResponse(statusCode: 401, description: "Não autenticado")]
         [SwaggerResponseExample(statusCode: 200, typeof(TeamResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _teamUseCase.GetByIdAsync(id);
@@ -113,6 +116,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 500, description: "Dados inválidos")]
         [SwaggerResponse(statusCode: 403, description: "Não autorizado")]
         [SwaggerResponseExample(statusCode: 201, typeof(TeamResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> Create([FromBody] TeamCreateUpdateDto request)
         {
             var result = await _teamUseCase.CreateAsync(request);
@@ -147,6 +151,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 404, description: "Time não encontrado")]
         [SwaggerResponse(statusCode: 403, description: "Não autorizado")]
         [SwaggerResponseExample(statusCode: 201, typeof(TeamResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> Update(int id, [FromBody] TeamCreateUpdateDto request)
         {
             var result = await _teamUseCase.UpdateAsync(id, request);
@@ -178,6 +183,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 404, description: "Time não encontrado")]
         [SwaggerResponse(statusCode: 403, description: "Não autorizado")]
         [SwaggerResponseExample(statusCode: 200, typeof(TeamResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _teamUseCase.DeleteAsync(id);

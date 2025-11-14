@@ -4,6 +4,7 @@ using LevelUp.Application.Interfaces;
 using LevelUp.Doc.Samples.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
@@ -38,6 +39,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 401, description: "Credenciais inválidas")]
         [SwaggerResponse(statusCode: 500, description: "Erro interno do servidor")]
         [SwaggerResponseExample(statusCode: 200, typeof(AuthResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> Login([FromBody] AuthRequestDto request)
         {
             var result = await _authUseCase.LoginAsync(request);
@@ -79,6 +81,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 409, description: "O e-mail informado já está em uso")]
         [SwaggerResponse(statusCode: 500, description: "Erro interno do servidor")]
         [SwaggerResponseExample(statusCode: 201, typeof(UserResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> Register([FromBody] UserCreateDto request)
         {
             var result = await _authUseCase.RegisterAsync(request);

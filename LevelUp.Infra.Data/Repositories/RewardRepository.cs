@@ -49,7 +49,7 @@ namespace LevelUp.Infra.Data.Repositories
 
             var total = await query.CountAsync();
 
-            var data = await _context.Rewards
+            var data = await query
                 .OrderBy(r => r.PointCost)
                 .Skip(offset)
                 .Take(take)

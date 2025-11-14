@@ -51,7 +51,7 @@ namespace LevelUp.Controllers
         [HttpGet("ready")]
         [SwaggerOperation(
             Summary = "Lista a situação do banco de dados",
-            Description = "Retorna todas as informações necessárias sobre a saúde atual dao banco de dados Oracle."
+            Description = "Retorna todas as informações necessárias sobre a saúde atual do banco de dados."
         )]
         [SwaggerResponse(statusCode: 200, description: "Banco saudável e Online.")]
         [SwaggerResponse(statusCode: 503, description: "Banco com problemas.")]

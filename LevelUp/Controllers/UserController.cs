@@ -5,6 +5,7 @@ using LevelUp.Doc.Samples.User;
 using LevelUp.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using System;
@@ -35,6 +36,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 401, description: "Não autenticado")]
         [SwaggerResponse(statusCode: 404, "Usuário do token não encontrado")]
         [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(UserResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> GetSelf()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -73,6 +75,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 401, description: "Não autenticado")]
         [SwaggerResponse(statusCode: 403, description: "Não autorizado (requer role ADMIN)")]
         [SwaggerResponseExample(statusCode: 200, typeof(UserListResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> GetAll([FromQuery] int offset = 0, [FromQuery] int take = 10)
         {
             var result = await _userUseCase.GetAllAsync(offset, take);
@@ -124,6 +127,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 404, description: "Usuário não encontrado")]
         [SwaggerResponse(statusCode: 401, description:"Não autorizado")]
         [SwaggerResponseExample(statusCode: 200, typeof(UserResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _userUseCase.GetByIdAsync(id);
@@ -159,6 +163,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 404, description: "Usuário não encontrado")]
         [SwaggerResponse(statusCode: 401, description: "Não autorizado")]
         [SwaggerResponseExample(statusCode: 201, typeof(UserResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> Update(int id, [FromBody] UserUpdateDto request)
         {
             var result = await _userUseCase.UpdateAsync(id, request);
@@ -190,6 +195,7 @@ namespace LevelUp.Controllers
         [SwaggerResponse(statusCode: 404, description: "Usuário não encontrado")]
         [SwaggerResponse(statusCode: 401, description: "Não autorizado")]
         [SwaggerResponseExample(statusCode: 200, typeof(UserResponseSample))]
+        [EnableRateLimiting("ratelimit")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _userUseCase.DeleteAsync(id);
