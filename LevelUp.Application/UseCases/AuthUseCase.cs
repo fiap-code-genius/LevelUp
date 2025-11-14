@@ -4,7 +4,7 @@ using LevelUp.Application.Interfaces;
 using LevelUp.Application.Mappers;
 using LevelUp.Domain.Common;
 using LevelUp.Domain.Errors;
-using LevelUp.Infra.Data.Repositories;
+using LevelUp.Domain.Interfaces;
 using System.Net;
 
 namespace LevelUp.Application.UseCases

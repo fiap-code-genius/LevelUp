@@ -1,4 +1,5 @@
-﻿using LevelUp.Infra.Data.AppData;
+﻿using LevelUp.Domain.Interfaces;
+using LevelUp.Infra.Data.AppData;
 using LevelUp.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
