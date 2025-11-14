@@ -3,6 +3,7 @@ using LevelUp.Application.Interfaces;
 using LevelUp.Application.Mappers;
 using LevelUp.Domain.Common;
 using LevelUp.Domain.Entities;
+using LevelUp.Domain.Errors;
 using LevelUp.Domain.Interfaces;
 using System.Net;
 
@@ -16,9 +17,18 @@ namespace LevelUp.Application.UseCases
         {
             _repository = repository;
         }
-        public Task<OperationResult<UserResponseDto?>> DeleteAsync(int id)
+        public async Task<OperationResult<UserResponseDto?>> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deletedUser = await _repository.DeleteAsync(id);
+
+                return OperationResult<UserResponseDto?>.Success(deletedUser?.ToResponseDto());
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<UserResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
+            }
         }
 
         public async Task<OperationResult<PageResultModel<IEnumerable<UserResponseDto>>>> GetAllAsync(int offset = 0, int take = 10)
@@ -48,19 +58,59 @@ namespace LevelUp.Application.UseCases
             }
         }
 
-        public Task<OperationResult<UserResponseDto?>> GetByEmailAsync(string email)
+        public async Task<OperationResult<UserResponseDto?>> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _repository.GetByEmailAsync(email);
+                return OperationResult<UserResponseDto?>.Success(user?.ToResponseDto());
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<UserResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
+            }
         }
 
-        public Task<OperationResult<UserResponseDto?>> GetByIdAsync(int id)
+        public async Task<OperationResult<UserResponseDto?>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _repository.GetByIdAsync(id);
+                return OperationResult<UserResponseDto?>.Success(user?.ToResponseDto());
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<UserResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
+            }
         }
 
-        public Task<OperationResult<UserResponseDto?>> UpdateAsync(int id, UserUpdateDto request)
+        public async Task<OperationResult<UserResponseDto?>> UpdateAsync(int id, UserUpdateDto request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userEntityUpdate = new UserEntity
+                {
+                    FullName = request.FullName,
+                    Email = request.Email,
+                    JobTitle = request.JobTitle,
+                    Role = request.Role,
+                    TeamId = request.TeamId,
+                    PasswordHash = ""
+                };
+
+                var updatedUser = await _repository.UpdateAsync(id, userEntityUpdate);
+
+                if (updatedUser == null)
+                {
+                    throw new IdNotFoundException($"Usuário com ID: {id} - não encontrado para atualizar.");
+                }
+
+                return OperationResult<UserResponseDto?>.Success(updatedUser.ToResponseDto());
+            }
+            catch (Exception ex)
+            {
+                return OperationResult<UserResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
+            }
         }
     }
 }
