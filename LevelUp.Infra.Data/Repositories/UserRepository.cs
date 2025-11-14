@@ -62,11 +62,11 @@ namespace LevelUp.Infra.Data.Repositories
 
         public async Task<PageResultModel<IEnumerable<UserEntity>>> GetAllAsync(int offset = 0, int take = 10)
         {
-            var query = _context.Users.Where(u => u.IsActive == 'Y');
+            var query = _context.Users.Where(u => u.IsActive != 'N');
 
             var total = await query.CountAsync();
 
-            var data = await _context.Users
+            var data = await query
                 .Include(u => u.Team)
                 .OrderBy(u => u.FullName)
                 .Skip(offset)
