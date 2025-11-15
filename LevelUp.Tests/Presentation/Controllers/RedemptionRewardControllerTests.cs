@@ -40,7 +40,7 @@ namespace LevelUp.Tests.Presentation.Controllers
                                      redemptionResponse, (int)HttpStatusCode.Created));
 
             // Act
-            var response = await _client.PostAsync($"/api/v1/redemption/{rewardIdToRedeem}", null);
+            var response = await _client.PostAsync($"/api/v1.0/RewardRedemption/{rewardIdToRedeem}", null);
 
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -61,7 +61,7 @@ namespace LevelUp.Tests.Presentation.Controllers
                                      "Pontos insuficientes.", (int)HttpStatusCode.BadRequest));
 
             // Act
-            var response = await _client.PostAsync($"/api/v1/redemption/{rewardIdToRedeem}", null);
+            var response = await _client.PostAsync($"/api/v1.0/RewardRedemption/{rewardIdToRedeem}", null);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -101,7 +101,7 @@ namespace LevelUp.Tests.Presentation.Controllers
                                   .ReturnsAsync(OperationResult<PageResultModel<IEnumerable<RedemptionResponseDto>>>.Success(pageResult));
 
             // Act
-            var response = await _client.GetAsync("/api/v1/redemption/my-history");
+            var response = await _client.GetAsync("/api/v1.0/RewardRedemption/my-history");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
