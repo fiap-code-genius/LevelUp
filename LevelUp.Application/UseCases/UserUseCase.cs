@@ -1,4 +1,5 @@
-﻿using LevelUp.Application.Dtos.User;
+﻿using LevelUp.Application.Dtos.Team;
+using LevelUp.Application.Dtos.User;
 using LevelUp.Application.Interfaces;
 using LevelUp.Application.Mappers;
 using LevelUp.Domain.Common;
@@ -78,6 +79,10 @@ namespace LevelUp.Application.UseCases
                 var user = await _repository.GetByIdAsync(id);
                 return OperationResult<UserResponseDto?>.Success(user?.ToResponseDto());
             }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<UserResponseDto?>.Failure(ex.Message, 404);
+            }
             catch (Exception ex)
             {
                 return OperationResult<UserResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
@@ -108,6 +113,10 @@ namespace LevelUp.Application.UseCases
                 }
 
                 return OperationResult<UserResponseDto?>.Success(updatedUser.ToResponseDto());
+            }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<UserResponseDto?>.Failure(ex.Message, 404);
             }
             catch (Exception ex)
             {
