@@ -1,4 +1,5 @@
 ﻿using LevelUp.Application.Dtos.Reward;
+using LevelUp.Application.Dtos.Team;
 using LevelUp.Application.Interfaces;
 using LevelUp.Application.Mappers;
 using LevelUp.Domain.Common;
@@ -37,6 +38,10 @@ namespace LevelUp.Application.UseCases
                 var deletedReward = await _repository.DeleteAsync(id);
                 return OperationResult<RewardResponseDto?>.Success(deletedReward?.ToResponseDto());
             }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<RewardResponseDto?>.Failure(ex.Message, 404);
+            }
             catch (Exception ex)
             {
                 return OperationResult<RewardResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
@@ -73,6 +78,10 @@ namespace LevelUp.Application.UseCases
                 var reward = await _repository.GetByIdAsync(id);
                 return OperationResult<RewardResponseDto?>.Success(reward.ToResponseDto());
             }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<RewardResponseDto?>.Failure(ex.Message, 404);
+            }
             catch (Exception ex)
             {
                 return OperationResult<RewardResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
@@ -91,6 +100,10 @@ namespace LevelUp.Application.UseCases
                 }
 
                 return OperationResult<RewardResponseDto?>.Success(updatedReward.ToResponseDto());
+            }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<RewardResponseDto?>.Failure(ex.Message, 404);
             }
             catch (Exception ex)
             {
