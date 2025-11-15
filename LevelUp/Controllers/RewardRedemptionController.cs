@@ -1,4 +1,5 @@
-﻿using LevelUp.Application.Dtos.Redemption;
+﻿using Asp.Versioning;
+using LevelUp.Application.Dtos.Redemption;
 using LevelUp.Application.Interfaces;
 using LevelUp.Doc.Samples.Redemption;
 using LevelUp.Domain.Common;
@@ -12,8 +13,9 @@ using System.Security.Claims;
 
 namespace LevelUp.Controllers
 {
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/v1/redemption")]
+    [ApiVersion("1.0")]
     [Authorize(Roles = "USER, ADMIN")]
     public class RewardRedemptionController : ControllerBase
     {

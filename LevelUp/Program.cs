@@ -1,4 +1,5 @@
-﻿using LevelUp.Infra.IoC;
+﻿using Asp.Versioning;
+using LevelUp.Infra.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -10,12 +11,35 @@ using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddApiVersioning(options =>
+{
+    // Report the API versions supported for the particular endpoint
+    options.ReportApiVersions = true;
+
+    // If the client hasn't specified an API version, use the default one
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+
+    // Assume default version when unspecified
+    options.AssumeDefaultVersionWhenUnspecified = true;
+
+    // Read the API version from the URL segment
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+}).AddMvc().AddApiExplorer(options =>
+{
+    // Format of the version added to the route URL
+    options.GroupNameFormat = "'v'VVV"; // e.g., v1, v1.0
+
+    // Substitute the version in the URL
+    options.SubstituteApiVersionInUrl = true;
+});
+
 Bootstrap.AddIoC(builder.Services, builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LevelUp API", Version = "v1" });
     var securitySchema = new OpenApiSecurityScheme
     {
         Description = "Using the Authorization header with the Bearer scheme.",
@@ -93,7 +117,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "LevelUp API v1.0");
+    });
 }
 
 app.UseRateLimiter();

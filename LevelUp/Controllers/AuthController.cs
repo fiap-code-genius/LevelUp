@@ -1,4 +1,5 @@
-﻿using LevelUp.Application.Dtos.Auth;
+﻿using Asp.Versioning;
+using LevelUp.Application.Dtos.Auth;
 using LevelUp.Application.Dtos.User;
 using LevelUp.Application.Interfaces;
 using LevelUp.Doc.Samples.User;
@@ -14,8 +15,9 @@ using System.Text;
 
 namespace LevelUp.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {

@@ -1,4 +1,5 @@
-﻿using LevelUp.Application.Dtos.Reward;
+﻿using Asp.Versioning;
+using LevelUp.Application.Dtos.Reward;
 using LevelUp.Application.Interfaces;
 using LevelUp.Doc.Samples.Reward;
 using LevelUp.Domain.Common;
@@ -10,8 +11,9 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace LevelUp.Controllers
 {
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [ApiVersion("1.0")]
     [Authorize]
     public class RewardController : Controller
     {

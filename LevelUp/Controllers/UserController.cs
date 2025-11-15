@@ -1,4 +1,4 @@
-﻿using Azure.Core;
+﻿using Asp.Versioning;
 using LevelUp.Application.Dtos.User;
 using LevelUp.Application.Interfaces;
 using LevelUp.Doc.Samples.User;
@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
-using System;
 using System.Net;
 using System.Security.Claims;
 
 namespace LevelUp.Controllers
 {
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [ApiVersion("1.0")]
     [Authorize]
     public class UserController : ControllerBase
     {
