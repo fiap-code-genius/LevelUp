@@ -1,0 +1,11 @@
+# Exclui todos os diretórios bin e obj, que são resultados de build
+**/bin/
+**/obj/
+
+# Exclui o projeto de testes
+LevelUp.Tests/
+
+# Exclui o controle de versão
+.git/
+.gitignore
+.gitattributes
