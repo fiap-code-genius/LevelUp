@@ -20,7 +20,7 @@ namespace LevelUp.Domain.Entities
 
         [Required]
         [StringLength(255)]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "O email informado não possui um formato válido.")]
         [Column("email")]
         public string Email { get; set; } = string.Empty;
 

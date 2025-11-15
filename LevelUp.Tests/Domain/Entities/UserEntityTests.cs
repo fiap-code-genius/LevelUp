@@ -87,7 +87,7 @@ namespace LevelUp.Tests.Domain.Entities
             Assert.NotEmpty(validationResults);
             Assert.Contains(validationResults, v =>
                 v.MemberNames.Contains("Email") &&
-                v.ErrorMessage.Contains("EmailAddress")
+                v.ErrorMessage.Contains("formato válido.")
             );
         }
 
