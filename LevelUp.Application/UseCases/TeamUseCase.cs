@@ -36,6 +36,10 @@ namespace LevelUp.Application.UseCases
                 var deletedTeam = await _repository.DeleteAsync(id);
                 return OperationResult<TeamResponseDto?>.Success(deletedTeam?.ToResponseDto());
             }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<TeamResponseDto?>.Failure(ex.Message, 404);
+            }
             catch (Exception ex)
             {
                 return OperationResult<TeamResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
@@ -72,6 +76,10 @@ namespace LevelUp.Application.UseCases
                 var team = await _repository.GetByIdAsync(id);
                 return OperationResult<TeamResponseDto?>.Success(team?.ToResponseDto());
             }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<TeamResponseDto?>.Failure(ex.Message, 404);
+            }
             catch (Exception ex)
             {
                 return OperationResult<TeamResponseDto?>.Failure($"Erro interno: {ex.Message}", 500);
@@ -90,6 +98,10 @@ namespace LevelUp.Application.UseCases
                 }
 
                 return OperationResult<TeamResponseDto?>.Success(updatedTeam.ToResponseDto());
+            }
+            catch (IdNotFoundException ex)
+            {
+                return OperationResult<TeamResponseDto?>.Failure(ex.Message, 404);
             }
             catch (Exception ex)
             {
