@@ -13,10 +13,12 @@ namespace LevelUp.Domain.Entities
 
         [Required]
         [Column("user_id")]
+        [Range(1, int.MaxValue, ErrorMessage = "UserId deve ser válido.")]
         public int UserId { get; set; }
 
         [Required]
         [Column("reward_id")]
+        [Range(1, int.MaxValue, ErrorMessage = "RewardId deve ser válido.")]
         public int RewardId { get; set; }
 
         [Required]
@@ -25,6 +27,7 @@ namespace LevelUp.Domain.Entities
 
         [Required]
         [Column("points_spent")]
+        [Range(1, int.MaxValue, ErrorMessage = "PointsSpent deve ser maior que 0.")]
         public int PointsSpent { get; set; }
 
         [ForeignKey("UserId")]
