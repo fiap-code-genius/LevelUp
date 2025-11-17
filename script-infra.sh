@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# --- Configurações Iniciais ---
 UNIQUE_SUFFIX=$(date +%s)
 
 RESOURCE_GROUP="rg-levelup-api"
 LOCATION="canadacentral"
-DB_SERVER_NAME="sql-levelup-api-srv-${UNIQUE_SUFFIX}"
+DB_SERVER_NAME="sql-levelup-api-srv"
 DB_NAME="levelup_db"
 DB_ADMIN_USER="levelupadmin"
 DB_ADMIN_PASSWORD="LevelUpP@ssw0rd2025!"
-WEB_APP_NAME="app-levelup-api-${UNIQUE_SUFFIX}"
+WEB_APP_NAME="app-levelup-api"
 APP_SERVICE_PLAN="plan-levelup-api"
 JWT_SECRET_KEY="SUA_CHAVE_SECRETA_LONGA_DE_PELO_MENOS_32_CARACTERES_AQUI"
 
@@ -68,7 +67,7 @@ az webapp create \
     --name $WEB_APP_NAME \
     --plan $APP_SERVICE_PLAN \
     --resource-group $RESOURCE_GROUP \
-    --runtime "DOTNET|8.0"
+    --runtime "DOTNETCORE:8.0"
 
 echo "--> Configurando a conexão do Web App com o Banco de Dados SQL..."
 
