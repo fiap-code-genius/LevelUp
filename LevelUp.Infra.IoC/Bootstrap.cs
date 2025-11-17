@@ -16,14 +16,15 @@ namespace LevelUp.Infra.IoC
         {
             services.AddDbContext<ApplicationContext>(options =>
             {
-                options.UseOracle(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly("LevelUp.Infra.Data"));
             });
 
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy(), tags: new[] { "live" })
-                .AddOracle(
+                .AddSqlServer(
                         connectionString: configuration.GetConnectionString("DefaultConnection"),
-                        name: "oracle_query",
+                        name: "sqlserver_query",
                         tags: new[] { "ready" }
                      );
 

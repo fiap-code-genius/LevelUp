@@ -14,7 +14,6 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="8.0.21" />
-		<PackageReference Include="Oracle.EntityFrameworkCore" Version="8.23.90" />
 	</ItemGroup>
 
 	<ItemGroup>
