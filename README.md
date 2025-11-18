@@ -364,15 +364,15 @@ Antes de executar o script, você precisa preparar seu ambiente:
      ```bash
         az account set --subscription "NOME_OU_ID_DA_SUA_ASSINATURA"
      ```
-4. **Dar Permissão Para o Arquivo.**: Dê permissões para o arquivo `deploy_azure.sh` para poder ser executado:
+4. **Dar Permissão Para o Arquivo.**: Dê permissões para o arquivo `script-infra.sh` para poder ser executado:
 
     ```bash
-        chmod +X deploy_azure.sh
+        chmod +X script-infra.sh
     ```
 Com o ambiente configurado, você está pronto para usar o script de deploy com o comando:.
 
 ```bash
-    ./deploy_azure.sh
+    ./script-infra.sh
 ```
 
 ### Script de Deploy Automatizado
